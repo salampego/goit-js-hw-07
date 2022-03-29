@@ -22,8 +22,6 @@ function onGalleryClick(e) {
   }
 }
 let gallery = new SimpleLightbox('.gallery__item', {
-  captions: true,
   captionsData: 'alt',
   captionDelay: 250,
-  captionsPosition: 'bottom',
 });
