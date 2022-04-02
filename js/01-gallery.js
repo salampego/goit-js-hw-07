@@ -3,6 +3,8 @@ import { galleryItems } from './gallery-items.js';
 const galleryRef = document.querySelector('.gallery');
 const imageMarkup = createGallery(galleryItems);
 
+let instance = null;
+
 function createGallery(galleryItems) {
   return galleryItems
     .map(({ original, description, preview }) => {
@@ -31,11 +33,23 @@ function onGalleryClick(e) {
 function modalShow(src) {
   const instance = basicLightbox.create(`
     <img src="${src}" width="800" height="600">`);
-  instance.show();
-
-  window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      instance.close();
-    }
+  instance.show(() => {
+    addEscListener();
   });
+
+  function onEscClick(e) {
+    if (e.key === 'Escape') {
+      instance.close(() => {
+        removeEscListener();
+      });
+    }
+  }
+
+  function addEscListener() {
+    window.addEventListener('keydown', onEscClick);
+  }
+
+  function removeEscListener() {
+    window.removeEventListener('keydown', onEscClick);
+  }
 }
